@@ -1,0 +1,37 @@
+<odoo>
+  <menuitem id="menu_art_root" name="Depósito"/>
+  <menuitem id="menu_art_material"    name="Materiais"   parent="menu_art_root"/>
+  <menuitem id="menu_art_operation"   name="Movimentações" parent="menu_art_root"/>
+
+  <record model="ir.actions.act_window" id="action_material">
+    <field name="name">Materiais</field>
+    <field name="res_model">xipp.material</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context">{}</field>
+  </record>
+  <menuitem id="menu_art_material_action" name="Listar Materiais" parent="menu_art_material" action="action_material"/>
+
+  <record model="ir.actions.act_window" id="action_operation">
+    <field name="name">Movimentações</field>
+    <field name="res_model">xipp.material.operation</field>
+    <field name="view_mode">tree,form</field>
+  </record>
+  <menuitem id="menu_art_operation_action" name="Ver Movimentações" parent="menu_art_operation" action="action_operation"/>
+
+  <!-- Wizards -->
+  <record id="action_material_entry_wizard" model="ir.actions.act_window">
+    <field name="name">Registrar Entrada</field>
+    <field name="res_model">xipp.material.entry.wizard</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+  </record>
+  <menuitem id="menu_art_entry_wizard" name="Registrar Entrada" parent="menu_art_material" action="action_material_entry_wizard"/>
+
+  <record id="action_material_exit_wizard" model="ir.actions.act_window">
+    <field name="name">Registrar Saída</field>
+    <field name="res_model">xipp.material.exit.wizard</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+  </record>
+  <menuitem id="menu_art_exit_wizard" name="Registrar Saída" parent="menu_art_material" action="action_material_exit_wizard"/>
+</odoo>

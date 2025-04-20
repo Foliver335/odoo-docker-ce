@@ -1,0 +1,41 @@
+version: '3.1'
+
+services:
+  web:
+    image: odoo:16.0
+    depends_on:
+      - db
+    ports:
+      - "8069:8069"
+    volumes:
+      - odoo-web-data:/var/lib/odoo
+      - ./addons:/mnt/extra-addons
+      - ./odoo.conf:/etc/odoo/odoo.conf
+    environment:
+      - HOST=db
+      - USER=odoo
+      - PASSWORD=odoo
+    command: >
+      bash -c "pip install --upgrade pip && pip install watchdog && odoo -c /etc/odoo/odoo.conf --dev=reload"
+
+  db:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=odoo
+    volumes:
+      - odoo-db-data:/var/lib/postgresql/data
+
+  pgweb:
+    image: sosedoff/pgweb
+    depends_on:
+      - db
+    ports:
+      - "8081:8081"
+    environment:
+      - PGWEB_DATABASE_URL=postgres://odoo:odoo@db:5432/postgres
+
+volumes:
+  odoo-web-data:
+  odoo-db-data:
